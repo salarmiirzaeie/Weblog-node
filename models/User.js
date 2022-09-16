@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { schema } = require("./secure/userValidation");
 const userSchema = new mongoose.Schema({
-  fullname: {
+  name: {
     type: String,
     required: true,
     trim: true,
@@ -26,5 +26,8 @@ const userSchema = new mongoose.Schema({
 userSchema.statics.userValidation = function (body) {
   return schema.validate(body, { abortEarly: false });
 };
+// userSchema.pre("save",function(next){
+
+// })
 const User = mongoose.model("User", userSchema);
 module.exports = User;
