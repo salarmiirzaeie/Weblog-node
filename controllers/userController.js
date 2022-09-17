@@ -1,12 +1,28 @@
 const passport = require("passport");
-
+const fetch=require("node-fetch")
 const User = require("../models/User");
 
 exports.login = (req, res) => {
   res.render("login", { pageTitle: "Enter Dashboard", path: "/login" });
 };
 
-exports.handleLogin = (req, res, next) => {
+exports.handleLogin =async (req, res, next) => {
+  console.log(req.body["g-recaptcha-response"])
+  if (!req.body["g-recaptcha-response"]) {
+    return res.redirect("users/login")
+  } 
+  const secretKey=process.env.CAPTCHA_SECRET
+  const verifyUrl=`http://google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body["g-recaptcha-response"]}
+  &remoteip=${req.connection.remoteAdress}`
+  const response=await fetch(verifyUrl,{
+    method:"POST",
+    headers:{
+      Accept:"application/json",
+      "Content-Type":"application/x-www-form-urlencoded;charset=utf-8"
+    }
+  })
+  const json=await response.json()
+  
   passport.authenticate("local", {
     // successRedirect:"/dashboard",
     failureRedirect: "/users/login",
@@ -22,7 +38,6 @@ exports.rememberme = (req, res) => {
 };
 exports.logout = (req, res) => {
   req.logout((q) => {
-    
     res.redirect("/users/login");
   });
 };

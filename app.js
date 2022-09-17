@@ -8,12 +8,12 @@ const passport = require("passport");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const connectDB = require("./config/db");
-
+const debug=require("debug")("weblog")
 //load config
 dotEnv.config({ path: "./config/config.env" });
 //databse connection
 connectDB();
-
+debug("connected to database")
 //Password Configuratiin
 require("./config/passport");
 
