@@ -1,1 +1,20 @@
 <%-include("./includes/navbars.ejs")%>
+<div class="col-12 text-center p-3">
+    <center>
+        <% for(let post of posts){ %> 
+        <div class="card mb-3 col-lg-8 ">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title"><%=post.title  %> </h5>
+              <p class="card-text"><%- post.body %> </p>
+              <p class="card-text"><small class="text-muted">
+                <%= formDate(post.createdAt) %> 
+              </small></p>
+            </div>
+          </div>
+        <% } %> 
+    </center>
+   
+      
+      
+</div>

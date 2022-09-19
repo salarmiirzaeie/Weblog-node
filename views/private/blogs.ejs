@@ -1,0 +1,38 @@
+<%if(blogs.length>0){%>
+  <div class="table-responsive mr-100" style="margin-right: 300px;">
+    <h2>Posts</h2>
+
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">عنوان</th>
+          <th scope="col">تاریخ</th>
+          <th scope="col">وضعیت</th>
+          <th scope="col">تست</th>
+        </tr>
+      </thead>
+      <tbody>
+       <% for(let blog of blogs){ %> 
+        <tr>
+          <td>1</td>
+          <td><a href="/blogs/<%=blog._id%>"></a><%=blog.title%></td>
+          <td><%=formDate(blog.createdAt) %></td>
+          <td><%=blog.status%></td>
+          <td><a href="/dashboard/edit-posts/<%=blog._id %> "class="btn btn-warning">ویرایش</a>
+            <a href="/dashboard/delete-post/<%=blog._id %>"class="btn btn-danger">حذف</a></td>
+        </tr>
+        <% } %> 
+      </tbody>
+    </table>
+    <%-include("../includes/pagination.ejs")%>
+  </div>
+
+
+<% } else{%> 
+  <div class="text-center">
+    <h3 class="mt-2">پستی ندارین</h3>
+  </div>
+<% } %> 
+
+ 

@@ -1,5 +1,5 @@
 const passport = require("passport");
-const fetch=require("node-fetch")
+const fech=require("node-fetch")
 const User = require("../models/User");
 
 exports.login = (req, res) => {
@@ -7,22 +7,26 @@ exports.login = (req, res) => {
 };
 
 exports.handleLogin =async (req, res, next) => {
-  console.log(req.body["g-recaptcha-response"])
-  if (!req.body["g-recaptcha-response"]) {
-    return res.redirect("users/login")
-  } 
-  const secretKey=process.env.CAPTCHA_SECRET
-  const verifyUrl=`http://google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body["g-recaptcha-response"]}
-  &remoteip=${req.connection.remoteAdress}`
-  const response=await fetch(verifyUrl,{
-    method:"POST",
-    headers:{
-      Accept:"application/json",
-      "Content-Type":"application/x-www-form-urlencoded;charset=utf-8"
-    }
-  })
-  const json=await response.json()
-  
+  // console.log(req.body["g-recaptcha-response"])
+  // if (!req.body["g-recaptcha-response"]) {
+  //   return res.redirect("/users/login")
+  // } 
+  // const secretKey=process.env.CAPTCHA_SECRET
+  // const verifyUrl=`http://google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body["g-recaptcha-response"]}
+  // &remoteip=${req.connection.remoteAdress}`
+  // const response=await fech(verifyUrl,{
+  //   method:"POST",
+  //   headers:{
+  //     Accept:"application/json",
+  //     "Content-Type":"application/x-www-form-urlencoded;charset=utf-8"
+  //   }
+  // })
+  // const json=await response.json()
+  //  console.log(json)
+  // if (json.success) {
+    
+    
+  // }
   passport.authenticate("local", {
     // successRedirect:"/dashboard",
     failureRedirect: "/users/login",
@@ -37,6 +41,7 @@ exports.rememberme = (req, res) => {
   res.redirect("/dashboard");
 };
 exports.logout = (req, res) => {
+  req.session=null
   req.logout((q) => {
     res.redirect("/users/login");
   });
