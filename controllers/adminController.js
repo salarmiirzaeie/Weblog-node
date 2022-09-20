@@ -1,19 +1,22 @@
 const multer = require("multer");
+const appRoot = require("app-root-path");
+const sharp = require("sharp");
+const uuid=require("uuid").v4
 
 const Blog = require("../models/blog");
 const { formDate } = require("../utils/jalali");
 const { get500, get404 } = require("./errorController");
 const { storage, fileFilter } = require("../utils/multer");
 exports.getDashboard = async (req, res) => {
-  const page=+req.query.page||1
-  const postPerPage=2
+  const page = +req.query.page || 1;
+  const postPerPage = 2;
   try {
-    const numberOfPosts=await Blog.find({
-      user:req.user._id
-    }).countDocuments()
+    const numberOfPosts = await Blog.find({
+      user: req.user._id,
+    }).countDocuments();
     const blogs = await Blog.find({ user: req.user.id })
-    .skip((page-1)*postPerPage)
-    .limit(postPerPage)
+      .skip((page - 1) * postPerPage)
+      .limit(postPerPage);
 
     res.render("private/blogs", {
       pageTitle: "داشبورد",
@@ -22,7 +25,7 @@ exports.getDashboard = async (req, res) => {
       name: req.user.name,
       blogs,
       formDate,
-      currentPage:page,
+      currentPage: page,
       nextPage: page + 1,
       previousPage: page - 1,
       hasNextPage: postPerPage * page < numberOfPosts,
@@ -88,13 +91,25 @@ exports.deletePost = async (req, res) => {
     return res.redirect("/dashboard");
   } catch (error) {
     console.log(error);
-    get500()
+    get500();
   }
 };
 exports.createPost = async (req, res) => {
+  const thumbnail = req.files ? req.files.thumbnail : {};
+  console.log(thumbnail);
+  fileName=`${uuid()}_${thumbnail.name}`
+  uploadPath = `${appRoot}/public/uploads/thumbnails/${fileName}`;
   try {
+    await sharp(thumbnail.data)
+      .jpeg({ quality: 60 })
+      .toFile(uploadPath)
+      .catch((err) => console.log(err));
     // await Blog.postValidation(req.body)
-    await Blog.create({ ...req.body, user: req.user.id });
+    await Blog.create({
+      ...req.body,
+      user: req.user.id,
+      thumbnail: fileName,
+    });
     res.redirect("/dashboard");
   } catch (error) {
     console.log(error);

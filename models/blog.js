@@ -19,6 +19,10 @@ const blogSchema=new mongoose.Schema({
         enum:["private","public"],
 
     },
+    thumbnail:{
+        type:String,
+        rquired:true,
+    },
     user:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"User"
@@ -29,7 +33,7 @@ const blogSchema=new mongoose.Schema({
     }
    
 })
-
+blogSchema.index({title:"text"})
 blogSchema.static.postValidation=function(body){
     return schema.validate(body,{abortEarly:false})
 }

@@ -1,6 +1,7 @@
 const passport = require("passport");
 const fech=require("node-fetch")
 const User = require("../models/User");
+const { sendEmail } = require("../utils/mailer");
 
 exports.login = (req, res) => {
   res.render("login", { pageTitle: "Enter Dashboard", path: "/login" });
@@ -53,6 +54,7 @@ exports.createUser = async (req, res) => {
   try {
     await User.userValidation(req.body);
     await User.create(req.body);
+    // sendEmail(req.params.email,req.params.name,"سلام","خوش اومدی")
     res.redirect("/users/login");
   } catch (error) {
     console.log(error);

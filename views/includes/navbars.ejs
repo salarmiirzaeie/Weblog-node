@@ -19,11 +19,16 @@
         <li class="nav-item">
           <a class="nav-link" href="#">تماس باما</a>
         </li>
-      
+       
       </ul>
-      <form role="search">
-        <input class="form-control" type="search" placeholder="جستجو" aria-label="Search">
-      </form>
+      
+     
+    </div>
+    <form role="search" action="/search" method="POST" class="mr-2">
+      <input  name="searchtext" class="form-control" type="search" placeholder="جستجو" aria-label="Search">
+    </form>
+    <div class="nav-item align-self-end  ">
+      <a class="nav-link btn btn-outline-info" href="/users/login">ورورد/ثبت نام</a>
     </div>
   </div>
 </nav>

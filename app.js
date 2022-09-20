@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const path = require("path");
+const fileupload=require("express-fileupload")
 const dotEnv = require("dotenv");
 const app = express();
 const expressLayout = require("express-ejs-layouts");
@@ -30,6 +31,8 @@ app.set("views", "views");
 //bodyparser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
+//upload
+app.use(fileupload())
 //session
 app.use(
   session({

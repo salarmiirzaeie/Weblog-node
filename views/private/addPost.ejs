@@ -3,7 +3,8 @@
     <div class="w-50 mx-auto">
         <%-include("../includes/messages.ejs")  %> 
     </div>
-<form class="form-group" action="/dashboard/add-post"class="w-50"method="POST">
+<form class="form-group" action="/dashboard/add-post"class="w-50"method="POST" enctype="multipart/form-data">
+    
 <label>عنوان</label>
     <input type="text"class="form-control w-50"name="title"/>
     
